@@ -1,12 +1,12 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2022": true
   },
   "extends": ["eslint:recommended"],
   "parserOptions": {
-    "ecmaVersion": 2021,
-    "sourceType": "script"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "rules": {
     "no-unused-vars": "warn",
@@ -16,9 +16,21 @@
   },
   "globals": {
     "ryttereData": "writable",
-    "sprinterKort": "readonly", 
+    "sprinterKort": "readonly",
     "allaroundKort": "readonly",
     "aktivSpiller": "writable",
-    "spilletilstand": "writable"
+    "spilletilstand": "writable",
+    "opretRyttere": "readonly",
+    "nytSpil": "readonly",
+    "blandAlle": "readonly",
+    "trækKort": "readonly",
+    "vælgKort": "readonly",
+    "tilføjTræthed": "readonly",
+    "visNotifikation": "readonly",
+    "visMmenu": "readonly",
+    "skjulMenu": "readonly",
+    "nytRunde": "readonly",
+    "skjulResultater": "readonly",
+    "tilføjTræthedResultat": "readonly"
   }
 }
