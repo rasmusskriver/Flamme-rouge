@@ -33,6 +33,15 @@
         border: 3px solid;
         border-radius: 12px;
         background-color: white;
+        display: block; /* Force visibility for Vercel fallback */
+      }
+      .spiller-sektion.aktiv {
+        display: block;
+        box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+      }
+      .spiller-sektion.vis-alle {
+        display: block;
+        opacity: 1;
       }
       .farve-roed {
         border-color: #dc3545;

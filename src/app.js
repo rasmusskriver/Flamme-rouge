@@ -3,7 +3,7 @@
    ======================================== */
 
 // Player data structure - 8 riders total (4 colors x 2 types each)
-let ryttereData = {
+const ryttereData = {
   roed_sprinter: {
     navn: '🔴 Rød Sprinter',
     type: 'sprinter',
@@ -727,6 +727,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Start new game
   opretRyttere();
   blandAlle();
+  opdaterAktivSpiller(); // Add this to show the active section
   opdaterRundeStatus();
   visNotifikation('Velkommen til Flamme Rouge! Røde ryttere begynder.', 'info');
 
