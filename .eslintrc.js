@@ -1,0 +1,32 @@
+module.exports = {
+  env: {
+    browser: true,
+    es2022: true,
+  },
+  extends: ['eslint:recommended'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  rules: {
+    'no-unused-vars': 'warn',
+    'no-console': 'off',
+    'prefer-const': 'error',
+    'no-var': 'error',
+  },
+  globals: {
+    // Define global functions that are used across files
+    opretRyttere: 'readonly',
+    nytSpil: 'readonly',
+    blandAlle: 'readonly',
+    trækKort: 'readonly',
+    vælgKort: 'readonly',
+    tilføjTræthed: 'readonly',
+    visNotifikation: 'readonly',
+    visMmenu: 'readonly',
+    skjulMenu: 'readonly',
+    nytRunde: 'readonly',
+    skjulResultater: 'readonly',
+    tilføjTræthedResultat: 'readonly',
+  },
+};

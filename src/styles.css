@@ -1,0 +1,620 @@
+/* ========================================
+   BASE STYLES
+   ======================================== */
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  text-align: center;
+  background-color: #f5f5f5;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+h1 {
+  color: #007acc;
+  margin-bottom: 30px;
+}
+
+h2 {
+  color: #333;
+  margin-top: 0;
+}
+
+/* ========================================
+   BUTTON STYLES
+   ======================================== */
+button {
+  font-size: 16px;
+  padding: 12px 20px;
+  margin: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #007acc;
+  color: white;
+  min-height: 44px; /* iOS recommended minimum touch target */
+  min-width: 44px;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+button:hover {
+  background-color: #005999;
+  transform: scale(1.02);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========================================
+   GAME COMPONENTS
+   ======================================== */
+.rytter {
+  margin: 15px 0;
+  border: 2px solid #007acc;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.kortvalg button,
+.kortvalg-knap {
+  background-color: #ff6b35 !important;
+  font-size: 20px !important;
+  font-weight: bold !important;
+  min-width: 70px !important;
+  height: 70px !important;
+  border-radius: 12px !important;
+  margin: 8px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.kortvalg button:hover,
+.kortvalg-knap:hover {
+  background-color: #e55a2b !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.kortvalg button:active,
+.kortvalg-knap:active {
+  transform: scale(0.95) !important;
+}
+
+.info {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  font-family: monospace;
+}
+
+/* ========================================
+   NOTIFICATIONS
+   ======================================== */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  max-width: calc(100vw - 80px);
+  word-wrap: break-word;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.notification.success {
+  background-color: #28a745;
+}
+
+.notification.info {
+  background-color: #17a2b8;
+}
+
+.notification.warning {
+  background-color: #ffc107;
+  color: #000;
+}
+
+/* ========================================
+   PLAYER SECTIONS
+   ======================================== */
+.spiller-sektion {
+  margin: 30px 0;
+  padding: 20px;
+  border: 3px solid;
+  border-radius: 12px;
+  background-color: white;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.spiller-sektion.aktiv {
+  display: block;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+}
+
+.spiller-sektion.vis-alle {
+  display: block;
+  opacity: 1;
+}
+
+.spiller-sektion.spiller1 {
+  border-color: #007acc;
+}
+
+.spiller-sektion.spiller2 {
+  border-color: #dc3545;
+}
+
+.spillertitel {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.spiller1 .spillertitel {
+  color: #007acc;
+}
+
+.spiller2 .spillertitel {
+  color: #dc3545;
+}
+
+/* ========================================
+   GAME CONTROLS
+   ======================================== */
+.spil-knapper {
+  margin: 20px 0;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.spil-knapper.skjult {
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ========================================
+   MENU SYSTEM
+   ======================================== */
+.menu-knap {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(0, 122, 204, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: all 0.3s ease;
+}
+
+.menu-knap:hover {
+  background: rgba(0, 122, 204, 1);
+  transform: scale(1.1);
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1002;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-overlay.vis {
+  display: flex;
+}
+
+.menu-content {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.menu-content h2 {
+  margin-top: 0;
+  color: #007acc;
+  margin-bottom: 30px;
+}
+
+.menu-content button {
+  display: block;
+  width: 200px;
+  margin: 15px auto;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+/* ========================================
+   RESULTS SYSTEM
+   ======================================== */
+.resultat-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: none;
+  z-index: 999;
+  overflow-y: auto;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.resultat-container.vis {
+  display: flex;
+  flex-direction: column;
+  animation: fadeInScale 0.5s ease-out;
+}
+
+.resultat-titel {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  flex-shrink: 0; /* Prevent title from shrinking */
+}
+
+.resultat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  flex: 1; /* Allow grid to grow but not shrink beyond content */
+  overflow-y: auto; /* Enable scrolling within grid if needed */
+}
+
+.resultat-kort {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.resultat-rytter {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.resultat-kort-værdi {
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.resultat-position {
+  font-size: 14px;
+  margin-top: 8px;
+  opacity: 0.9;
+}
+
+.resultat-actions {
+  margin-top: 15px;
+}
+
+.resultat-actions button {
+  background: rgba(220, 53, 69, 0.8);
+  border: 2px solid rgba(220, 53, 69, 1);
+  color: white;
+  padding: 8px 15px;
+  margin: 5px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.resultat-actions button:hover {
+  background: rgba(220, 53, 69, 1);
+  transform: scale(1.05);
+}
+
+.resultat-footer {
+  margin-top: auto;
+  padding-top: 30px;
+  text-align: center;
+  flex-shrink: 0; /* Prevent footer from shrinking */
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 20px 0 0 0;
+}
+
+.resultat-footer button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.resultat-footer button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   LAYOUT & ANIMATIONS
+   ======================================== */
+.main-content {
+  transition: opacity 0.3s ease;
+}
+
+.main-content.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   MOBILE RESPONSIVE STYLES
+   ======================================== */
+@media screen and (max-width: 768px) {
+  body {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  /* Mobile button adjustments */
+  button {
+    font-size: 16px;
+    padding: 14px 20px;
+    margin: 6px;
+    min-height: 48px;
+  }
+
+  .kortvalg button,
+  .kortvalg-knap {
+    font-size: 18px !important;
+    min-width: 60px !important;
+    height: 60px !important;
+    margin: 6px !important;
+  }
+
+  /* Mobile card selection layout */
+  .kortvalg {
+    margin: 12px 0 !important;
+  }
+
+  .kortvalg h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  /* Mobile player sections */
+  .rytter {
+    margin: 10px 0;
+    padding: 12px;
+  }
+
+  .spiller-sektion {
+    margin: 20px 0;
+    padding: 15px;
+  }
+
+  .spillertitel {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  /* Mobile menu adjustments */
+  .menu-knap {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+    top: 15px;
+    left: 15px;
+  }
+
+  .menu-content {
+    padding: 25px;
+    margin: 20px;
+    width: calc(100% - 40px);
+    max-width: 350px;
+  }
+
+  .menu-content button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Mobile results grid */
+  .resultat-container {
+    padding: 20px 15px;
+    height: 100vh;
+    height: 100dvh; /* Better mobile viewport support */
+    min-height: -webkit-fill-available; /* Safari fallback */
+  }
+
+  .resultat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .resultat-kort {
+    padding: 12px;
+  }
+
+  .resultat-kort-værdi {
+    font-size: 28px;
+  }
+
+  .resultat-actions button {
+    padding: 8px 12px;
+    font-size: 12px;
+    margin: 3px;
+  }
+
+  .resultat-footer {
+    margin-top: 20px;
+    padding: 15px 0;
+    flex-shrink: 0; /* Prevent footer from shrinking */
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .resultat-footer button {
+    padding: 15px 20px;
+    font-size: 16px;
+    margin: 8px;
+    width: calc(100% - 40px);
+    max-width: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Mobile info display */
+  .info {
+    font-size: 12px;
+    padding: 8px;
+    margin: 8px 0;
+  }
+
+  #rundestatus {
+    font-size: 16px;
+    margin: 15px 0;
+    padding: 0 10px;
+  }
+
+  /* Extra small mobile screens */
+  @media screen and (max-height: 600px) {
+    .resultat-container {
+      padding: 10px;
+    }
+
+    .resultat-titel {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .resultat-footer {
+      padding: 10px 0;
+      margin-top: 15px;
+    }
+
+    .resultat-footer button {
+      padding: 12px 15px;
+      font-size: 14px;
+    }
+  }
+
+  /* Mobile notifications */
+  .notification {
+    top: 15px;
+    right: 15px;
+    left: 15px;
+    transform: translateY(-100%);
+    max-width: none;
+    font-size: 14px;
+    padding: 12px 15px;
+    text-align: center;
+  }
+
+  .notification.show {
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    padding: 8px;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .kortvalg button,
+  .kortvalg-knap {
+    font-size: 16px !important;
+    min-width: 55px !important;
+    height: 55px !important;
+    margin: 4px !important;
+  }
+
+  .menu-content {
+    padding: 20px;
+    margin: 15px;
+  }
+
+  .resultat-container {
+    padding: 20px 15px;
+  }
+
+  .resultat-titel {
+    font-size: 22px;
+  }
+
+  .resultat-kort-værdi {
+    font-size: 24px;
+  }
+}

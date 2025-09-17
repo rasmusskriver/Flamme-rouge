@@ -1,0 +1,53 @@
+{
+  "name": "flamme-rouge-card-manager",
+  "version": "2.0.0",
+  "description": "Digital kortstyring til Flamme Rouge brætspil - PWA",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "start": "vercel dev",
+    "dev": "vercel dev",
+    "build": "npm run lint && npm run test:validate",
+    "preview": "vercel dev --prod",
+    "deploy": "vercel",
+    "deploy:prod": "vercel --prod",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write .",
+    "test:validate": "html-validate index.html",
+    "serve": "npx serve .",
+    "lighthouse": "lighthouse http://localhost:3000 --output-path=./lighthouse-report.html --view"
+  },
+  "keywords": [
+    "flamme-rouge",
+    "board-game",
+    "card-game",
+    "pwa",
+    "vercel",
+    "game-assistant"
+  ],
+  "author": "Flamme Rouge Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@vercel/node": "^3.0.0",
+    "eslint": "^8.57.0",
+    "html-validate": "^8.0.0",
+    "lighthouse": "^11.0.0",
+    "prettier": "^3.0.0",
+    "serve": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/flamme-rouge-card-manager.git"
+  },
+  "homepage": "https://your-project.vercel.app",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}

@@ -1,7 +1,9 @@
-const CACHE_NAME = "flamme-rouge-v1";
+const CACHE_NAME = "flamme-rouge-v2";
 const urlsToCache = [
   "/",
   "/index.html",
+  "/src/styles.css",
+  "/src/app.js",
   "/manifest.json",
   "/icon-192.svg",
   "/icon-512.svg",
