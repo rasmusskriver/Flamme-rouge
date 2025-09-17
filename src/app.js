@@ -279,9 +279,6 @@ function nytSpil() {
   aktivSpiller = null;
   blandAlle();
 
-  // Clear saved game data when starting new game
-  rydGemtSpildata();
-
   visNotifikation('Nyt spil startet! Røde ryttere begynder.', 'success');
 
   // Reset game state
@@ -410,9 +407,6 @@ function vælgKort(rytter, kortIndex) {
     '✓ Kort valgt hemmeligt';
   document.getElementById(`${rytter}-træk-btn`).disabled = true;
 
-  // Save game state after card selection
-  gemSpilTilstand();
-
   aktivSpiller = null;
 
   // Check if color has selected for both riders
@@ -441,9 +435,6 @@ function tilføjTræthed(rytter) {
   let r = ryttereData[rytter];
   // Add fatigue card (value 2) to fatigue deck
   r.træthed.push(2);
-
-  // Save game state after adding fatigue
-  gemSpilTilstand();
 
   visNotifikation(`${r.navn} får et træthedskort (værdi 2)`, 'warning');
   opdaterUI();
@@ -515,9 +506,6 @@ function nytRunde() {
   opdaterRundeStatus();
   opdaterUI();
 
-  // Save game state after new round setup
-  gemSpilTilstand();
-
   visNotifikation('Ny runde startet! Røde ryttere begynder.', 'info');
 }
 
@@ -560,9 +548,6 @@ function visAlleKort() {
       `Spillede kort: ${valg.kort}`;
   }
 
-  // Save game state after positions are updated
-  gemSpilTilstand();
-
   // Show result container with animation
   document.getElementById('resultat-container').classList.add('vis');
   document.getElementById('main-content').classList.add('hidden');
@@ -586,9 +571,6 @@ function skjulResultater() {
 function tilføjTræthedResultat(rytter) {
   let r = ryttereData[rytter];
   r.træthed.push(2);
-
-  // Save game state after adding fatigue in results
-  gemSpilTilstand();
 
   visNotifikation(`${r.navn} får et træthedskort (værdi 2)`, 'warning');
 
@@ -742,26 +724,11 @@ function skjulMenu() {
 
 // Initialize the game
 document.addEventListener('DOMContentLoaded', function () {
-  // Try to load saved game state first
-  const harGemtData = indlæsSpilTilstand();
-
-  if (harGemtData) {
-    // Restore saved game
-    opretRyttere();
-    opdaterUI();
-    opdaterAktivSpiller();
-    opdaterRundeStatus();
-    visNotifikation('Gemt spil genoprettet! Fortsæt hvor du slap.', 'success');
-  } else {
-    // Start new game
-    opretRyttere();
-    blandAlle();
-    opdaterRundeStatus();
-    visNotifikation(
-      'Velkommen til Flamme Rouge! Røde ryttere begynder.',
-      'info'
-    );
-  }
+  // Start new game
+  opretRyttere();
+  blandAlle();
+  opdaterRundeStatus();
+  visNotifikation('Velkommen til Flamme Rouge! Røde ryttere begynder.', 'info');
 
   // PWA Service Worker registration
   if ('serviceWorker' in navigator) {

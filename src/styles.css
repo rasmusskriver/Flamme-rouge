@@ -139,7 +139,7 @@ button:disabled {
 }
 
 /* ========================================
-   PLAYER SECTIONS
+   COLOR SECTIONS (Updated for 4 colors)
    ======================================== */
 .spiller-sektion {
   margin: 30px 0;
@@ -161,12 +161,25 @@ button:disabled {
   opacity: 1;
 }
 
-.spiller-sektion.spiller1 {
-  border-color: #007acc;
+/* Color-specific borders and styling */
+.spiller-sektion.farve-roed {
+  border-color: #dc3545;
+  background: linear-gradient(135deg, #fff 0%, #ffe6e6 100%);
 }
 
-.spiller-sektion.spiller2 {
-  border-color: #dc3545;
+.spiller-sektion.farve-sort {
+  border-color: #343a40;
+  background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+}
+
+.spiller-sektion.farve-groen {
+  border-color: #28a745;
+  background: linear-gradient(135deg, #fff 0%, #e6ffe6 100%);
+}
+
+.spiller-sektion.farve-blaa {
+  border-color: #007bff;
+  background: linear-gradient(135deg, #fff 0%, #e6f3ff 100%);
 }
 
 .spillertitel {
@@ -176,12 +189,100 @@ button:disabled {
   text-align: center;
 }
 
-.spiller1 .spillertitel {
-  color: #007acc;
+.farve-roed .spillertitel {
+  color: #dc3545;
+  text-shadow: 1px 1px 2px rgba(220, 53, 69, 0.2);
 }
 
-.spiller2 .spillertitel {
+.farve-sort .spillertitel {
+  color: #343a40;
+  text-shadow: 1px 1px 2px rgba(52, 58, 64, 0.2);
+}
+
+.farve-groen .spillertitel {
+  color: #28a745;
+  text-shadow: 1px 1px 2px rgba(40, 167, 69, 0.2);
+}
+
+.farve-blaa .spillertitel {
+  color: #007bff;
+  text-shadow: 1px 1px 2px rgba(0, 123, 255, 0.2);
+}
+
+/* ========================================
+   RIDER COLOR STYLING
+   ======================================== */
+/* Red riders */
+.farve-roed .rytter {
+  border-color: #dc3545;
+  border-width: 3px;
+  background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.1);
+}
+
+.farve-roed .rytter h2 {
   color: #dc3545;
+  border-bottom: 2px solid #dc3545;
+  padding-bottom: 5px;
+}
+
+/* Black riders */
+.farve-sort .rytter {
+  border-color: #343a40;
+  border-width: 3px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  box-shadow: 0 4px 8px rgba(52, 58, 64, 0.1);
+}
+
+.farve-sort .rytter h2 {
+  color: #343a40;
+  border-bottom: 2px solid #343a40;
+  padding-bottom: 5px;
+}
+
+/* Green riders */
+.farve-groen .rytter {
+  border-color: #28a745;
+  border-width: 3px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.1);
+}
+
+.farve-groen .rytter h2 {
+  color: #28a745;
+  border-bottom: 2px solid #28a745;
+  padding-bottom: 5px;
+}
+
+/* Blue riders */
+.farve-blaa .rytter {
+  border-color: #007bff;
+  border-width: 3px;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
+}
+
+.farve-blaa .rytter h2 {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+/* Color-specific button styling for cards */
+.farve-roed .kortvalg button {
+  border: 2px solid #dc3545 !important;
+}
+
+.farve-sort .kortvalg button {
+  border: 2px solid #343a40 !important;
+}
+
+.farve-groen .kortvalg button {
+  border: 2px solid #28a745 !important;
+}
+
+.farve-blaa .kortvalg button {
+  border: 2px solid #007bff !important;
 }
 
 /* ========================================
