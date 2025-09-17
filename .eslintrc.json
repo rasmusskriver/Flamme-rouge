@@ -1,0 +1,24 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "script"
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "prefer-const": "error",
+    "no-var": "error"
+  },
+  "globals": {
+    "ryttereData": "writable",
+    "sprinterKort": "readonly", 
+    "allaroundKort": "readonly",
+    "aktivSpiller": "writable",
+    "spilletilstand": "writable"
+  }
+}
