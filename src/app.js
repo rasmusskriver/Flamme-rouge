@@ -2,11 +2,13 @@
    GAME DATA & CONFIGURATION
    ======================================== */
 
-// Player data structure
+// Player data structure - 8 riders total (4 colors x 2 types each)
 let ryttereData = {
-  spiller1_sprinter: {
-    navn: 'Spiller 1 - Sprinter',
+  roed_sprinter: {
+    navn: '🔴 Rød Sprinter',
     type: 'sprinter',
+    farve: 'roed',
+    farveDisplay: '🔴 Rød',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -14,9 +16,11 @@ let ryttereData = {
     position: 0,
     dragnekort: [],
   },
-  spiller1_allaround: {
-    navn: 'Spiller 1 - Allaround',
+  roed_allaround: {
+    navn: '🔴 Rød Allaround',
     type: 'allaround',
+    farve: 'roed',
+    farveDisplay: '🔴 Rød',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -24,9 +28,11 @@ let ryttereData = {
     position: 0,
     dragnekort: [],
   },
-  spiller2_sprinter: {
-    navn: 'Spiller 2 - Sprinter',
+  sort_sprinter: {
+    navn: '⚫ Sort Sprinter',
     type: 'sprinter',
+    farve: 'sort',
+    farveDisplay: '⚫ Sort',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -34,9 +40,59 @@ let ryttereData = {
     position: 0,
     dragnekort: [],
   },
-  spiller2_allaround: {
-    navn: 'Spiller 2 - Allaround',
+  sort_allaround: {
+    navn: '⚫ Sort Allaround',
     type: 'allaround',
+    farve: 'sort',
+    farveDisplay: '⚫ Sort',
+    bunke: [],
+    træthed: [],
+    brugtekort: [],
+    fravalgtkort: [],
+    position: 0,
+    dragnekort: [],
+  },
+  groen_sprinter: {
+    navn: '🟢 Grøn Sprinter',
+    type: 'sprinter',
+    farve: 'groen',
+    farveDisplay: '🟢 Grøn',
+    bunke: [],
+    træthed: [],
+    brugtekort: [],
+    fravalgtkort: [],
+    position: 0,
+    dragnekort: [],
+  },
+  groen_allaround: {
+    navn: '🟢 Grøn Allaround',
+    type: 'allaround',
+    farve: 'groen',
+    farveDisplay: '🟢 Grøn',
+    bunke: [],
+    træthed: [],
+    brugtekort: [],
+    fravalgtkort: [],
+    position: 0,
+    dragnekort: [],
+  },
+  blaa_sprinter: {
+    navn: '🔵 Blå Sprinter',
+    type: 'sprinter',
+    farve: 'blaa',
+    farveDisplay: '🔵 Blå',
+    bunke: [],
+    træthed: [],
+    brugtekort: [],
+    fravalgtkort: [],
+    position: 0,
+    dragnekort: [],
+  },
+  blaa_allaround: {
+    navn: '🔵 Blå Allaround',
+    type: 'allaround',
+    farve: 'blaa',
+    farveDisplay: '🔵 Blå',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -56,8 +112,8 @@ let spilletilstand = {
   fase: 'vælg_kort', // "vælg_kort" or "vis_resultater"
   valgtekort: {},
   rundeDone: false,
-  aktivSpiller: 'spiller1', // "spiller1" or "spiller2"
-  spillerRækkefolge: ['spiller1', 'spiller2'],
+  aktivSpiller: 'roed', // "roed", "sort", "groen", "blaa"
+  spillerRækkefolge: ['roed', 'sort', 'groen', 'blaa'],
 };
 
 /* ========================================
@@ -122,18 +178,28 @@ function opretRyttere() {
   let container = document.getElementById('ryttere');
   container.innerHTML = '';
 
-  // Create player sections
-  let spiller1Div = document.createElement('div');
-  spiller1Div.className = 'spiller-sektion spiller1';
-  spiller1Div.id = 'spiller1-sektion';
-  spiller1Div.innerHTML = '<div class="spillertitel">🚴‍♂️ Spiller 1</div>';
+  // Create color sections for each team
+  let roedDiv = document.createElement('div');
+  roedDiv.className = 'spiller-sektion farve-roed';
+  roedDiv.id = 'roed-sektion';
+  roedDiv.innerHTML = '<div class="spillertitel">🔴 Røde Ryttere</div>';
 
-  let spiller2Div = document.createElement('div');
-  spiller2Div.className = 'spiller-sektion spiller2';
-  spiller2Div.id = 'spiller2-sektion';
-  spiller2Div.innerHTML = '<div class="spillertitel">🚴‍♀️ Spiller 2</div>';
+  let sortDiv = document.createElement('div');
+  sortDiv.className = 'spiller-sektion farve-sort';
+  sortDiv.id = 'sort-sektion';
+  sortDiv.innerHTML = '<div class="spillertitel">⚫ Sorte Ryttere</div>';
 
-  // Create rider components for each player
+  let groenDiv = document.createElement('div');
+  groenDiv.className = 'spiller-sektion farve-groen';
+  groenDiv.id = 'groen-sektion';
+  groenDiv.innerHTML = '<div class="spillertitel">🟢 Grønne Ryttere</div>';
+
+  let blaaDiv = document.createElement('div');
+  blaaDiv.className = 'spiller-sektion farve-blaa';
+  blaaDiv.id = 'blaa-sektion';
+  blaaDiv.innerHTML = '<div class="spillertitel">� Blå Ryttere</div>';
+
+  // Create rider components for each color
   for (let key in ryttereData) {
     let rytter = ryttereData[key];
 
@@ -169,16 +235,22 @@ function opretRyttere() {
       </button>
     `;
 
-    // Add rider to correct player section
-    if (key.includes('spiller1')) {
-      spiller1Div.appendChild(div);
-    } else {
-      spiller2Div.appendChild(div);
+    // Add rider to correct color section
+    if (key.includes('roed')) {
+      roedDiv.appendChild(div);
+    } else if (key.includes('sort')) {
+      sortDiv.appendChild(div);
+    } else if (key.includes('groen')) {
+      groenDiv.appendChild(div);
+    } else if (key.includes('blaa')) {
+      blaaDiv.appendChild(div);
     }
   }
 
-  container.appendChild(spiller1Div);
-  container.appendChild(spiller2Div);
+  container.appendChild(roedDiv);
+  container.appendChild(sortDiv);
+  container.appendChild(groenDiv);
+  container.appendChild(blaaDiv);
 
   opdaterAktivSpiller();
   opdaterUI();
@@ -210,12 +282,12 @@ function nytSpil() {
   // Clear saved game data when starting new game
   rydGemtSpildata();
 
-  visNotifikation('Nyt spil startet! Spiller 1 begynder.', 'success');
+  visNotifikation('Nyt spil startet! Røde ryttere begynder.', 'success');
 
   // Reset game state
   spilletilstand.fase = 'vælg_kort';
   spilletilstand.valgtekort = {};
-  spilletilstand.aktivSpiller = 'spiller1';
+  spilletilstand.aktivSpiller = 'roed';
   opdaterAktivSpiller();
   opdaterRundeStatus();
 }
@@ -238,10 +310,14 @@ function trækKort(rytter) {
   }
 
   if (!rytter.includes(spilletilstand.aktivSpiller)) {
+    let farveNavne = {
+      roed: '🔴 Røde',
+      sort: '⚫ Sorte',
+      groen: '🟢 Grønne',
+      blaa: '🔵 Blå',
+    };
     visNotifikation(
-      `Det er ${
-        spilletilstand.aktivSpiller === 'spiller1' ? 'Spiller 1' : 'Spiller 2'
-      }s tur!`,
+      `Det er ${farveNavne[spilletilstand.aktivSpiller]} rytteres tur!`,
       'warning'
     );
     return;
@@ -339,16 +415,16 @@ function vælgKort(rytter, kortIndex) {
 
   aktivSpiller = null;
 
-  // Check if player has selected for both riders
-  let spillerNavn = rytter.includes('spiller1') ? 'spiller1' : 'spiller2';
-  let sprinter = spillerNavn + '_sprinter';
-  let allaround = spillerNavn + '_allaround';
+  // Check if color has selected for both riders
+  let farveNavn = rytter.split('_')[0]; // Extract color from rider key
+  let sprinter = farveNavn + '_sprinter';
+  let allaround = farveNavn + '_allaround';
 
   if (
     spilletilstand.valgtekort[sprinter] &&
     spilletilstand.valgtekort[allaround]
   ) {
-    // Player is done, switch to next player or finish
+    // Color is done, switch to next color or finish
     if (skiftTilNæsteSpiller()) {
       // All have selected, show cards
       setTimeout(() => {
@@ -387,14 +463,20 @@ function skiftTilNæsteSpiller() {
 
   opdaterAktivSpiller();
 
-  if (spilletilstand.aktivSpiller === 'spiller1') {
-    visNotifikation(
-      'Alle spillere har valgt kort! Kort afsløres nu.',
-      'success'
-    );
+  if (spilletilstand.aktivSpiller === 'roed') {
+    visNotifikation('Alle farver har valgt kort! Kort afsløres nu.', 'success');
     return true; // All have selected
   } else {
-    visNotifikation('Spiller 2s tur!', 'info');
+    let farveNavne = {
+      roed: '🔴 Røde',
+      sort: '⚫ Sorte',
+      groen: '🟢 Grønne',
+      blaa: '🔵 Blå',
+    };
+    visNotifikation(
+      `${farveNavne[spilletilstand.aktivSpiller]} rytteres tur!`,
+      'info'
+    );
     return false;
   }
 }
@@ -415,7 +497,7 @@ function nytRunde() {
   // Reset to new round
   spilletilstand.fase = 'vælg_kort';
   spilletilstand.valgtekort = {};
-  spilletilstand.aktivSpiller = 'spiller1';
+  spilletilstand.aktivSpiller = 'roed';
 
   // Hide result container and show main content
   document.getElementById('resultat-container').classList.remove('vis');
@@ -436,7 +518,7 @@ function nytRunde() {
   // Save game state after new round setup
   gemSpilTilstand();
 
-  visNotifikation('Ny runde startet! Spiller 1 begynder.', 'info');
+  visNotifikation('Ny runde startet! Røde ryttere begynder.', 'info');
 }
 
 /* ========================================
@@ -543,32 +625,40 @@ function visNotifikation(besked, type = 'info') {
 }
 
 function opdaterAktivSpiller() {
-  // Hide all players first
-  document
-    .getElementById('spiller1-sektion')
-    .classList.remove('aktiv', 'vis-alle');
-  document
-    .getElementById('spiller2-sektion')
-    .classList.remove('aktiv', 'vis-alle');
+  // Hide all color sections first
+  const farver = ['roed', 'sort', 'groen', 'blaa'];
+  farver.forEach((farve) => {
+    let sektion = document.getElementById(`${farve}-sektion`);
+    if (sektion) {
+      sektion.classList.remove('aktiv', 'vis-alle');
+    }
+  });
 
-  // Show only the active player
+  // Show only the active color section
   if (spilletilstand.fase === 'vælg_kort') {
-    document
-      .getElementById(`${spilletilstand.aktivSpiller}-sektion`)
-      .classList.add('aktiv');
+    let aktivSektion = document.getElementById(
+      `${spilletilstand.aktivSpiller}-sektion`
+    );
+    if (aktivSektion) {
+      aktivSektion.classList.add('aktiv');
+    }
   } else {
-    // Show both players when cards are revealed
-    document.getElementById('spiller1-sektion').classList.add('vis-alle');
-    document.getElementById('spiller2-sektion').classList.add('vis-alle');
+    // Show all color sections when cards are revealed
+    farver.forEach((farve) => {
+      let sektion = document.getElementById(`${farve}-sektion`);
+      if (sektion) {
+        sektion.classList.add('vis-alle');
+      }
+    });
   }
 
-  // Disable buttons for inactive player
+  // Disable buttons for inactive colors
   for (let key in ryttereData) {
-    let erAktivSpiller = key.includes(spilletilstand.aktivSpiller);
+    let erAktivFarve = key.includes(spilletilstand.aktivSpiller);
     let trakBtn = document.getElementById(`${key}-træk-btn`);
     if (trakBtn) {
       trakBtn.disabled =
-        !erAktivSpiller ||
+        !erAktivFarve ||
         spilletilstand.valgtekort[key] ||
         spilletilstand.fase !== 'vælg_kort';
     }
@@ -579,11 +669,22 @@ function opdaterRundeStatus() {
   let status = document.getElementById('rundestatus');
 
   if (spilletilstand.fase === 'vælg_kort') {
-    let aktivSpillerNavn =
-      spilletilstand.aktivSpiller === 'spiller1' ? 'Spiller 1' : 'Spiller 2';
-    status.innerHTML = `${aktivSpillerNavn}s tur - Vælg kort for begge ryttere`;
-    status.style.color =
-      spilletilstand.aktivSpiller === 'spiller1' ? '#007acc' : '#dc3545';
+    let farveNavne = {
+      roed: '🔴 Røde',
+      sort: '⚫ Sorte',
+      groen: '🟢 Grønne',
+      blaa: '🔵 Blå',
+    };
+    let aktivFarveNavn = farveNavne[spilletilstand.aktivSpiller];
+    status.innerHTML = `${aktivFarveNavn} rytteres tur - Vælg kort for begge ryttere`;
+
+    let farveColors = {
+      roed: '#dc3545',
+      sort: '#343a40',
+      groen: '#28a745',
+      blaa: '#007bff',
+    };
+    status.style.color = farveColors[spilletilstand.aktivSpiller];
   } else {
     status.innerHTML = "Alle kort afsløret! Klik 'Ny runde' for næste runde";
     status.style.color = '#28a745';
@@ -656,7 +757,10 @@ document.addEventListener('DOMContentLoaded', function () {
     opretRyttere();
     blandAlle();
     opdaterRundeStatus();
-    visNotifikation('Velkommen til Flamme Rouge! Spiller 1 begynder.', 'info');
+    visNotifikation(
+      'Velkommen til Flamme Rouge! Røde ryttere begynder.',
+      'info'
+    );
   }
 
   // PWA Service Worker registration
