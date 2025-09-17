@@ -5,8 +5,8 @@
 // Player data structure
 let ryttereData = {
   spiller1_sprinter: {
-    navn: "Spiller 1 - Sprinter",
-    type: "sprinter",
+    navn: 'Spiller 1 - Sprinter',
+    type: 'sprinter',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -15,8 +15,8 @@ let ryttereData = {
     dragnekort: [],
   },
   spiller1_allaround: {
-    navn: "Spiller 1 - Allaround",
-    type: "allaround",
+    navn: 'Spiller 1 - Allaround',
+    type: 'allaround',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -25,8 +25,8 @@ let ryttereData = {
     dragnekort: [],
   },
   spiller2_sprinter: {
-    navn: "Spiller 2 - Sprinter",
-    type: "sprinter",
+    navn: 'Spiller 2 - Sprinter',
+    type: 'sprinter',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -35,8 +35,8 @@ let ryttereData = {
     dragnekort: [],
   },
   spiller2_allaround: {
-    navn: "Spiller 2 - Allaround",
-    type: "allaround",
+    navn: 'Spiller 2 - Allaround',
+    type: 'allaround',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -53,30 +53,84 @@ const allaroundKort = [3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7];
 // Game state management
 let aktivSpiller = null;
 let spilletilstand = {
-  fase: "vælg_kort", // "vælg_kort" or "vis_resultater"
+  fase: 'vælg_kort', // "vælg_kort" or "vis_resultater"
   valgtekort: {},
   rundeDone: false,
-  aktivSpiller: "spiller1", // "spiller1" or "spiller2"
-  spillerRækkefolge: ["spiller1", "spiller2"],
+  aktivSpiller: 'spiller1', // "spiller1" or "spiller2"
+  spillerRækkefolge: ['spiller1', 'spiller2'],
 };
+
+/* ========================================
+   LOCAL STORAGE - GAME STATE PERSISTENCE
+   ======================================== */
+
+function gemSpilTilstand() {
+  try {
+    const spilldata = {
+      ryttereData: ryttereData,
+      spilletilstand: spilletilstand,
+      aktivSpiller: aktivSpiller,
+      timestamp: new Date().getTime(),
+    };
+    localStorage.setItem('flammeRougeSpildata', JSON.stringify(spilldata));
+  } catch (error) {
+    console.error('Kunne ikke gemme spiltilstand:', error);
+  }
+}
+
+function indlæsSpilTilstand() {
+  try {
+    const gemt = localStorage.getItem('flammeRougeSpildata');
+    if (gemt) {
+      const spilldata = JSON.parse(gemt);
+
+      // Check if saved data is less than 7 days old
+      const now = new Date().getTime();
+      const dageSiden = (now - spilldata.timestamp) / (1000 * 60 * 60 * 24);
+
+      if (dageSiden < 7) {
+        ryttereData = spilldata.ryttereData;
+        spilletilstand = spilldata.spilletilstand;
+        aktivSpiller = spilldata.aktivSpiller;
+        return true;
+      } else {
+        // Remove old save data
+        localStorage.removeItem('flammeRougeSpildata');
+      }
+    }
+  } catch (error) {
+    console.error('Kunne ikke indlæse spiltilstand:', error);
+    localStorage.removeItem('flammeRougeSpildata');
+  }
+  return false;
+}
+
+function rydGemtSpildata() {
+  try {
+    localStorage.removeItem('flammeRougeSpildata');
+    visNotifikation('Gemt spildata er ryddet!', 'info');
+  } catch (error) {
+    console.error('Kunne ikke rydde gemt data:', error);
+  }
+}
 
 /* ========================================
    GAME INITIALIZATION
    ======================================== */
 
 function opretRyttere() {
-  let container = document.getElementById("ryttere");
-  container.innerHTML = "";
+  let container = document.getElementById('ryttere');
+  container.innerHTML = '';
 
   // Create player sections
-  let spiller1Div = document.createElement("div");
-  spiller1Div.className = "spiller-sektion spiller1";
-  spiller1Div.id = "spiller1-sektion";
+  let spiller1Div = document.createElement('div');
+  spiller1Div.className = 'spiller-sektion spiller1';
+  spiller1Div.id = 'spiller1-sektion';
   spiller1Div.innerHTML = '<div class="spillertitel">🚴‍♂️ Spiller 1</div>';
 
-  let spiller2Div = document.createElement("div");
-  spiller2Div.className = "spiller-sektion spiller2";
-  spiller2Div.id = "spiller2-sektion";
+  let spiller2Div = document.createElement('div');
+  spiller2Div.className = 'spiller-sektion spiller2';
+  spiller2Div.id = 'spiller2-sektion';
   spiller2Div.innerHTML = '<div class="spillertitel">🚴‍♀️ Spiller 2</div>';
 
   // Create rider components for each player
@@ -84,7 +138,7 @@ function opretRyttere() {
     let rytter = ryttereData[key];
 
     // Assign correct cards based on rider type
-    if (rytter.type === "sprinter") {
+    if (rytter.type === 'sprinter') {
       rytter.bunke = [...sprinterKort];
     } else {
       rytter.bunke = [...allaroundKort];
@@ -96,12 +150,12 @@ function opretRyttere() {
     rytter.fravalgtkort = [];
     rytter.dragnekort = [];
 
-    let div = document.createElement("div");
-    div.className = "rytter";
+    let div = document.createElement('div');
+    div.className = 'rytter';
     div.id = key;
 
     // Different colors for each rider type
-    let borderColor = rytter.type === "sprinter" ? "#ff6b35" : "#28a745";
+    let borderColor = rytter.type === 'sprinter' ? '#ff6b35' : '#28a745';
     div.style.borderColor = borderColor;
 
     div.innerHTML = `
@@ -116,7 +170,7 @@ function opretRyttere() {
     `;
 
     // Add rider to correct player section
-    if (key.includes("spiller1")) {
+    if (key.includes('spiller1')) {
       spiller1Div.appendChild(div);
     } else {
       spiller2Div.appendChild(div);
@@ -136,7 +190,7 @@ function nytSpil() {
     let rytter = ryttereData[key];
 
     // Assign correct cards based on rider type
-    if (rytter.type === "sprinter") {
+    if (rytter.type === 'sprinter') {
       rytter.bunke = [...sprinterKort];
     } else {
       rytter.bunke = [...allaroundKort];
@@ -147,17 +201,21 @@ function nytSpil() {
     rytter.fravalgtkort = [];
     rytter.dragnekort = [];
     rytter.position = 0;
-    document.getElementById(`${key}-kort`).innerHTML = "";
+    document.getElementById(`${key}-kort`).innerHTML = '';
   }
 
   aktivSpiller = null;
   blandAlle();
-  visNotifikation("Nyt spil startet! Spiller 1 begynder.", "success");
+
+  // Clear saved game data when starting new game
+  rydGemtSpildata();
+
+  visNotifikation('Nyt spil startet! Spiller 1 begynder.', 'success');
 
   // Reset game state
-  spilletilstand.fase = "vælg_kort";
+  spilletilstand.fase = 'vælg_kort';
   spilletilstand.valgtekort = {};
-  spilletilstand.aktivSpiller = "spiller1";
+  spilletilstand.aktivSpiller = 'spiller1';
   opdaterAktivSpiller();
   opdaterRundeStatus();
 }
@@ -174,31 +232,23 @@ function blandAlle() {
 }
 
 function trækKort(rytter) {
-  if (spilletilstand.fase !== "vælg_kort") {
-    visNotifikation(
-      "Venter på at alle spillere har valgt kort!",
-      "warning"
-    );
+  if (spilletilstand.fase !== 'vælg_kort') {
+    visNotifikation('Venter på at alle spillere har valgt kort!', 'warning');
     return;
   }
 
   if (!rytter.includes(spilletilstand.aktivSpiller)) {
     visNotifikation(
       `Det er ${
-        spilletilstand.aktivSpiller === "spiller1"
-          ? "Spiller 1"
-          : "Spiller 2"
+        spilletilstand.aktivSpiller === 'spiller1' ? 'Spiller 1' : 'Spiller 2'
       }s tur!`,
-      "warning"
+      'warning'
     );
     return;
   }
 
   if (spilletilstand.valgtekort[rytter]) {
-    visNotifikation(
-      "Du har allerede valgt kort for denne rytter!",
-      "warning"
-    );
+    visNotifikation('Du har allerede valgt kort for denne rytter!', 'warning');
     return;
   }
 
@@ -213,7 +263,7 @@ function trækKort(rytter) {
       r.bunke.sort(() => Math.random() - 0.5);
       visNotifikation(
         `${r.navn}: Fravalgte kort blandet tilbage i bunken!`,
-        "info"
+        'info'
       );
     }
 
@@ -224,16 +274,13 @@ function trækKort(rytter) {
       r.bunke.sort(() => Math.random() - 0.5);
       visNotifikation(
         `${r.navn}: Træthedskort også blandet tilbage i bunken!`,
-        "info"
+        'info'
       );
     }
   }
 
   if (r.bunke.length < 4) {
-    visNotifikation(
-      `${r.navn} har ikke nok kort til at trække 4!`,
-      "warning"
-    );
+    visNotifikation(`${r.navn} har ikke nok kort til at trække 4!`, 'warning');
     return;
   }
 
@@ -259,7 +306,7 @@ function visDragneKort(rytter) {
           (kort, index) =>
             `<button onclick="vælgKort('${rytter}', ${index})" class="kortvalg-knap">${kort}</button>`
         )
-        .join("")}
+        .join('')}
     </div>
   `;
 }
@@ -282,17 +329,20 @@ function vælgKort(rytter, kortIndex) {
   r.dragnekort = [];
 
   // Show that card is selected, but not which one
-  document.getElementById(`${rytter}-kort`).innerHTML = "";
+  document.getElementById(`${rytter}-kort`).innerHTML = '';
   document.getElementById(`${rytter}-valgt`).innerHTML =
-    "✓ Kort valgt hemmeligt";
+    '✓ Kort valgt hemmeligt';
   document.getElementById(`${rytter}-træk-btn`).disabled = true;
+
+  // Save game state after card selection
+  gemSpilTilstand();
 
   aktivSpiller = null;
 
   // Check if player has selected for both riders
-  let spillerNavn = rytter.includes("spiller1") ? "spiller1" : "spiller2";
-  let sprinter = spillerNavn + "_sprinter";
-  let allaround = spillerNavn + "_allaround";
+  let spillerNavn = rytter.includes('spiller1') ? 'spiller1' : 'spiller2';
+  let sprinter = spillerNavn + '_sprinter';
+  let allaround = spillerNavn + '_allaround';
 
   if (
     spilletilstand.valgtekort[sprinter] &&
@@ -302,7 +352,7 @@ function vælgKort(rytter, kortIndex) {
     if (skiftTilNæsteSpiller()) {
       // All have selected, show cards
       setTimeout(() => {
-        spilletilstand.fase = "vis_resultater";
+        spilletilstand.fase = 'vis_resultater';
         visAlleKort();
       }, 1000);
     }
@@ -315,7 +365,11 @@ function tilføjTræthed(rytter) {
   let r = ryttereData[rytter];
   // Add fatigue card (value 2) to fatigue deck
   r.træthed.push(2);
-  visNotifikation(`${r.navn} får et træthedskort (værdi 2)`, "warning");
+
+  // Save game state after adding fatigue
+  gemSpilTilstand();
+
+  visNotifikation(`${r.navn} får et træthedskort (værdi 2)`, 'warning');
   opdaterUI();
 }
 
@@ -329,19 +383,18 @@ function skiftTilNæsteSpiller() {
   );
   let næsteIndex =
     (nuværendeIndex + 1) % spilletilstand.spillerRækkefolge.length;
-  spilletilstand.aktivSpiller =
-    spilletilstand.spillerRækkefolge[næsteIndex];
+  spilletilstand.aktivSpiller = spilletilstand.spillerRækkefolge[næsteIndex];
 
   opdaterAktivSpiller();
 
-  if (spilletilstand.aktivSpiller === "spiller1") {
+  if (spilletilstand.aktivSpiller === 'spiller1') {
     visNotifikation(
-      "Alle spillere har valgt kort! Kort afsløres nu.",
-      "success"
+      'Alle spillere har valgt kort! Kort afsløres nu.',
+      'success'
     );
     return true; // All have selected
   } else {
-    visNotifikation("Spiller 2s tur!", "info");
+    visNotifikation('Spiller 2s tur!', 'info');
     return false;
   }
 }
@@ -351,7 +404,7 @@ function tjekOmAlleHarValgt() {
   let antalRyttere = Object.keys(ryttereData).length;
 
   if (antalValgte === antalRyttere) {
-    spilletilstand.fase = "vis_resultater";
+    spilletilstand.fase = 'vis_resultater';
     visAlleKort();
   }
 
@@ -360,26 +413,30 @@ function tjekOmAlleHarValgt() {
 
 function nytRunde() {
   // Reset to new round
-  spilletilstand.fase = "vælg_kort";
+  spilletilstand.fase = 'vælg_kort';
   spilletilstand.valgtekort = {};
-  spilletilstand.aktivSpiller = "spiller1";
+  spilletilstand.aktivSpiller = 'spiller1';
 
   // Hide result container and show main content
-  document.getElementById("resultat-container").classList.remove("vis");
-  document.getElementById("main-content").classList.remove("hidden");
-  document.querySelector(".menu-knap").style.display = "block";
+  document.getElementById('resultat-container').classList.remove('vis');
+  document.getElementById('main-content').classList.remove('hidden');
+  document.querySelector('.menu-knap').style.display = 'block';
 
   // Reset UI
   for (let key in ryttereData) {
-    document.getElementById(`${key}-valgt`).innerHTML = "";
-    document.getElementById(`${key}-kort`).innerHTML = "";
+    document.getElementById(`${key}-valgt`).innerHTML = '';
+    document.getElementById(`${key}-kort`).innerHTML = '';
     document.getElementById(`${key}-træk-btn`).disabled = false;
   }
 
   opdaterAktivSpiller();
   opdaterRundeStatus();
   opdaterUI();
-  visNotifikation("Ny runde startet! Spiller 1 begynder.", "info");
+
+  // Save game state after new round setup
+  gemSpilTilstand();
+
+  visNotifikation('Ny runde startet! Spiller 1 begynder.', 'info');
 }
 
 /* ========================================
@@ -388,8 +445,8 @@ function nytRunde() {
 
 function visAlleKort() {
   let resultater = [];
-  let resultatGrid = document.getElementById("resultat-grid");
-  resultatGrid.innerHTML = "";
+  let resultatGrid = document.getElementById('resultat-grid');
+  resultatGrid.innerHTML = '';
 
   for (let rytter in spilletilstand.valgtekort) {
     let valg = spilletilstand.valgtekort[rytter];
@@ -402,8 +459,8 @@ function visAlleKort() {
     resultater.push(`${r.navn}: ${valg.kort}`);
 
     // Create result card for display
-    let resultatKort = document.createElement("div");
-    resultatKort.className = "resultat-kort";
+    let resultatKort = document.createElement('div');
+    resultatKort.className = 'resultat-kort';
     resultatKort.innerHTML = `
       <div class="resultat-rytter">${r.navn}</div>
       <div class="resultat-kort-værdi">${valg.kort}</div>
@@ -417,22 +474,24 @@ function visAlleKort() {
     resultatGrid.appendChild(resultatKort);
 
     // Update rider display
-    document.getElementById(
-      `${rytter}-valgt`
-    ).innerHTML = `Spillede kort: ${valg.kort}`;
+    document.getElementById(`${rytter}-valgt`).innerHTML =
+      `Spillede kort: ${valg.kort}`;
   }
 
+  // Save game state after positions are updated
+  gemSpilTilstand();
+
   // Show result container with animation
-  document.getElementById("resultat-container").classList.add("vis");
-  document.getElementById("main-content").classList.add("hidden");
-  document.querySelector(".menu-knap").style.display = "none";
+  document.getElementById('resultat-container').classList.add('vis');
+  document.getElementById('main-content').classList.add('hidden');
+  document.querySelector('.menu-knap').style.display = 'none';
 
   // Show both players
   opdaterAktivSpiller();
 
   visNotifikation(
-    "Alle kort afsløret! Tilføj træthedskort hvis nødvendigt.",
-    "success"
+    'Alle kort afsløret! Tilføj træthedskort hvis nødvendigt.',
+    'success'
   );
   opdaterUI();
 }
@@ -445,13 +504,17 @@ function skjulResultater() {
 function tilføjTræthedResultat(rytter) {
   let r = ryttereData[rytter];
   r.træthed.push(2);
-  visNotifikation(`${r.navn} får et træthedskort (værdi 2)`, "warning");
+
+  // Save game state after adding fatigue in results
+  gemSpilTilstand();
+
+  visNotifikation(`${r.navn} får et træthedskort (værdi 2)`, 'warning');
 
   // Update display in result screen
-  let resultatKort = event.target.closest(".resultat-kort");
-  let positionDiv = resultatKort.querySelector(".resultat-position");
+  let resultatKort = event.target.closest('.resultat-kort');
+  let positionDiv = resultatKort.querySelector('.resultat-position');
   let nuværendeText = positionDiv.innerHTML;
-  if (!nuværendeText.includes("Træthedskort:")) {
+  if (!nuværendeText.includes('Træthedskort:')) {
     positionDiv.innerHTML =
       nuværendeText + `<br>Træthedskort: ${r.træthed.length}`;
   } else {
@@ -468,35 +531,35 @@ function tilføjTræthedResultat(rytter) {
    UI MANAGEMENT
    ======================================== */
 
-function visNotifikation(besked, type = "info") {
-  let notification = document.getElementById("notification");
+function visNotifikation(besked, type = 'info') {
+  let notification = document.getElementById('notification');
   notification.textContent = besked;
   notification.className = `notification ${type}`;
-  notification.classList.add("show");
+  notification.classList.add('show');
 
   setTimeout(() => {
-    notification.classList.remove("show");
+    notification.classList.remove('show');
   }, 3000);
 }
 
 function opdaterAktivSpiller() {
   // Hide all players first
   document
-    .getElementById("spiller1-sektion")
-    .classList.remove("aktiv", "vis-alle");
+    .getElementById('spiller1-sektion')
+    .classList.remove('aktiv', 'vis-alle');
   document
-    .getElementById("spiller2-sektion")
-    .classList.remove("aktiv", "vis-alle");
+    .getElementById('spiller2-sektion')
+    .classList.remove('aktiv', 'vis-alle');
 
   // Show only the active player
-  if (spilletilstand.fase === "vælg_kort") {
+  if (spilletilstand.fase === 'vælg_kort') {
     document
       .getElementById(`${spilletilstand.aktivSpiller}-sektion`)
-      .classList.add("aktiv");
+      .classList.add('aktiv');
   } else {
     // Show both players when cards are revealed
-    document.getElementById("spiller1-sektion").classList.add("vis-alle");
-    document.getElementById("spiller2-sektion").classList.add("vis-alle");
+    document.getElementById('spiller1-sektion').classList.add('vis-alle');
+    document.getElementById('spiller2-sektion').classList.add('vis-alle');
   }
 
   // Disable buttons for inactive player
@@ -507,26 +570,23 @@ function opdaterAktivSpiller() {
       trakBtn.disabled =
         !erAktivSpiller ||
         spilletilstand.valgtekort[key] ||
-        spilletilstand.fase !== "vælg_kort";
+        spilletilstand.fase !== 'vælg_kort';
     }
   }
 }
 
 function opdaterRundeStatus() {
-  let status = document.getElementById("rundestatus");
+  let status = document.getElementById('rundestatus');
 
-  if (spilletilstand.fase === "vælg_kort") {
+  if (spilletilstand.fase === 'vælg_kort') {
     let aktivSpillerNavn =
-      spilletilstand.aktivSpiller === "spiller1"
-        ? "Spiller 1"
-        : "Spiller 2";
+      spilletilstand.aktivSpiller === 'spiller1' ? 'Spiller 1' : 'Spiller 2';
     status.innerHTML = `${aktivSpillerNavn}s tur - Vælg kort for begge ryttere`;
     status.style.color =
-      spilletilstand.aktivSpiller === "spiller1" ? "#007acc" : "#dc3545";
+      spilletilstand.aktivSpiller === 'spiller1' ? '#007acc' : '#dc3545';
   } else {
-    status.innerHTML =
-      "Alle kort afsløret! Klik 'Ny runde' for næste runde";
-    status.style.color = "#28a745";
+    status.innerHTML = "Alle kort afsløret! Klik 'Ny runde' for næste runde";
+    status.style.color = '#28a745';
   }
 
   opdaterKnappeVisning();
@@ -537,25 +597,23 @@ function opdaterUI() {
     let r = ryttereData[key];
     let info = `Position: ${r.position}\nKort i bunke: ${r.bunke.length}\nTræthedskort: ${r.træthed.length}\nBrugte kort: ${r.brugtekort.length}\nFravalgte kort: ${r.fravalgtkort.length}`;
     if (r.brugtekort.length > 0) {
-      info += `\nSidste brugte kort: ${
-        r.brugtekort[r.brugtekort.length - 1]
-      }`;
+      info += `\nSidste brugte kort: ${r.brugtekort[r.brugtekort.length - 1]}`;
     }
     document.getElementById(`${key}-info`).innerText = info;
   }
 }
 
 function opdaterKnappeVisning() {
-  let spillKnapper = document.getElementById("spil-knapper");
-  let menuKnap = document.querySelector(".menu-knap");
+  let spillKnapper = document.getElementById('spil-knapper');
+  let menuKnap = document.querySelector('.menu-knap');
 
   // Hide buttons when players select cards, show only in result phase
-  if (spilletilstand.fase === "vælg_kort") {
-    spillKnapper.classList.add("skjult");
-    menuKnap.style.display = "block";
+  if (spilletilstand.fase === 'vælg_kort') {
+    spillKnapper.classList.add('skjult');
+    menuKnap.style.display = 'block';
   } else {
-    spillKnapper.classList.remove("skjult");
-    menuKnap.style.display = "none"; // Hide menu when results are shown
+    spillKnapper.classList.remove('skjult');
+    menuKnap.style.display = 'none'; // Hide menu when results are shown
     // Only "New round" button in main game
     spillKnapper.innerHTML = `
       <button onclick="nytRunde()" style="background-color: #17a2b8; margin: 10px;">
@@ -570,11 +628,11 @@ function opdaterKnappeVisning() {
    ======================================== */
 
 function visMmenu() {
-  document.getElementById("menu-overlay").classList.add("vis");
+  document.getElementById('menu-overlay').classList.add('vis');
 }
 
 function skjulMenu() {
-  document.getElementById("menu-overlay").classList.remove("vis");
+  document.getElementById('menu-overlay').classList.remove('vis');
 }
 
 /* ========================================
@@ -582,26 +640,36 @@ function skjulMenu() {
    ======================================== */
 
 // Initialize the game
-document.addEventListener("DOMContentLoaded", function() {
-  opretRyttere();
-  blandAlle();
-  opdaterRundeStatus();
-  visNotifikation(
-    "Velkommen til Flamme Rouge! Spiller 1 begynder.",
-    "info"
-  );
+document.addEventListener('DOMContentLoaded', function () {
+  // Try to load saved game state first
+  const harGemtData = indlæsSpilTilstand();
+
+  if (harGemtData) {
+    // Restore saved game
+    opretRyttere();
+    opdaterUI();
+    opdaterAktivSpiller();
+    opdaterRundeStatus();
+    visNotifikation('Gemt spil genoprettet! Fortsæt hvor du slap.', 'success');
+  } else {
+    // Start new game
+    opretRyttere();
+    blandAlle();
+    opdaterRundeStatus();
+    visNotifikation('Velkommen til Flamme Rouge! Spiller 1 begynder.', 'info');
+  }
 
   // PWA Service Worker registration
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js").then(
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(
       function (registration) {
         console.log(
-          "ServiceWorker registreret med success: ",
+          'ServiceWorker registreret med success: ',
           registration.scope
         );
       },
       function (err) {
-        console.log("ServiceWorker registrering fejlede: ", err);
+        console.log('ServiceWorker registrering fejlede: ', err);
       }
     );
   }
