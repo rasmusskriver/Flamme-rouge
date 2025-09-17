@@ -1,0 +1,27 @@
+{
+  "name": "Flamme Rouge Kortstyring",
+  "short_name": "Flamme Rouge",
+  "description": "Digital kortstyring til Flamme Rouge brætspil",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#007acc",
+  "orientation": "portrait",
+  "categories": ["games", "entertainment"],
+  "lang": "da",
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
