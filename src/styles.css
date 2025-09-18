@@ -2,10 +2,15 @@
    BASE STYLES
    ======================================== */
 body {
-  font-family: sans-serif;
-  padding: 20px;
-  text-align: center;
-  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 75%, #f5576c 100%);
+  background-attachment: fixed;
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -13,16 +18,46 @@ body {
   -ms-user-select: none;
   user-select: none;
   touch-action: manipulation;
+  overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.main-content {
+  padding: 20px 16px;
+  max-width: 428px;
+  margin: 0 auto;
+  min-height: 100vh;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0;
 }
 
 h1 {
-  color: #007acc;
+  color: #ffffff;
   margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
 }
 
 h2 {
   color: #333;
   margin-top: 0;
+  font-weight: 600;
+}
+
+h3 {
+  color: #444;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 12px 0 8px 0;
 }
 
 /* ========================================
@@ -30,77 +65,203 @@ h2 {
    ======================================== */
 button {
   font-size: 16px;
-  padding: 12px 20px;
-  margin: 8px;
+  font-weight: 600;
+  padding: 14px 24px;
+  margin: 6px;
   border: none;
-  border-radius: 8px;
+  border-radius: 16px;
   cursor: pointer;
-  background-color: #007acc;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  min-height: 44px; /* iOS recommended minimum touch target */
-  min-width: 44px;
-  transition: all 0.2s ease;
+  min-height: 48px;
+  min-width: 48px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+button:hover::before {
+  left: 100%;
 }
 
 button:hover {
-  background-color: #005999;
-  transform: scale(1.02);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, #7c8fe8 0%, #8a5fb8 100%);
 }
 
 button:active {
-  transform: scale(0.98);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 button:disabled {
-  background-color: #ccc;
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+  color: #757575;
   cursor: not-allowed;
   transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled::before {
+  display: none;
 }
 
 /* ========================================
    GAME COMPONENTS
    ======================================== */
+.spiller-sektion {
+  margin: 24px 0;
+  padding: 0;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spiller-sektion.aktiv {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.farve-overskrift {
+  padding: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  color: white;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.farve-roed .farve-overskrift {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+}
+
+.farve-sort .farve-overskrift {
+  background: linear-gradient(135deg, #555555 0%, #333333 100%);
+}
+
+.farve-groen .farve-overskrift {
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+}
+
+.farve-blaa .farve-overskrift {
+  background: linear-gradient(135deg, #339af0 0%, #228be6 100%);
+}
+
 .rytter {
-  margin: 15px 0;
-  border: 2px solid #007acc;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  border: none;
+  padding: 20px;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.rytter:last-child {
+  border-bottom: none;
+}
+
+.rytter h2 {
+  color: #2c2c2c;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.info {
+  background: linear-gradient(135deg, #f8f9ff 0%, #f1f3ff 100%);
+  padding: 16px;
+  border-radius: 16px;
+  margin: 12px 0;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .kortvalg button,
 .kortvalg-knap {
-  background-color: #ff6b35 !important;
-  font-size: 20px !important;
-  font-weight: bold !important;
-  min-width: 70px !important;
-  height: 70px !important;
-  border-radius: 12px !important;
+  background: linear-gradient(135deg, #ff8a65 0%, #ff7043 100%) !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  min-width: 64px !important;
+  height: 64px !important;
+  border-radius: 20px !important;
   margin: 8px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 6px 20px rgba(255, 112, 67, 0.4) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+  position: relative !important;
+  overflow: hidden !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.kortvalg button::before,
+.kortvalg-knap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.kortvalg button:hover::before,
+.kortvalg-knap:hover::before {
+  opacity: 1;
 }
 
 .kortvalg button:hover,
 .kortvalg-knap:hover {
-  background-color: #e55a2b !important;
-  transform: scale(1.05) !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 30px rgba(255, 112, 67, 0.6) !important;
+  background: linear-gradient(135deg, #ff9575 0%, #ff8053 100%) !important;
 }
 
 .kortvalg button:active,
 .kortvalg-knap:active {
-  transform: scale(0.95) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 15px rgba(255, 112, 67, 0.5) !important;
 }
 
-.info {
-  background-color: #f8f9fa;
-  padding: 10px;
-  border-radius: 5px;
-  margin: 10px 0;
-  font-family: monospace;
+.kortvalg-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
 }
 
 /* ========================================
@@ -108,47 +269,55 @@ button:disabled {
    ======================================== */
 .notification {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 15px 20px;
-  border-radius: 8px;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  padding: 16px 24px;
+  border-radius: 16px;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   z-index: 1000;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  max-width: calc(100vw - 80px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: calc(100vw - 40px);
   word-wrap: break-word;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
 }
 
 .notification.show {
-  transform: translateX(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .notification.success {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
 }
 
 .notification.info {
-  background-color: #17a2b8;
+  background: linear-gradient(135deg, #339af0 0%, #228be6 100%);
 }
 
 .notification.warning {
-  background-color: #ffc107;
+  background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
   color: #000;
 }
 
 /* ========================================
-   COLOR SECTIONS (Updated for 4 colors)
+   GAME STATUS & ROUND INDICATOR
    ======================================== */
-.spiller-sektion {
-  margin: 30px 0;
-  padding: 20px;
-  border: 3px solid;
-  border-radius: 12px;
-  background-color: white;
-  display: none;
-  transition: all 0.3s ease;
+#rundestatus {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 16px 24px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c2c2c;
+  text-align: center;
+  margin: 24px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .spiller-sektion.aktiv {
@@ -306,23 +475,27 @@ button:disabled {
    ======================================== */
 .menu-knap {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  background: rgba(0, 122, 204, 0.9);
+  top: 24px;
+  left: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 20px;
+  border-radius: 20px;
+  width: 56px;
+  height: 56px;
+  font-size: 24px;
   cursor: pointer;
   z-index: 1001;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .menu-knap:hover {
-  background: rgba(0, 122, 204, 1);
-  transform: scale(1.1);
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, #7c8fe8 0%, #8a5fb8 100%);
 }
 
 .menu-overlay {
@@ -331,11 +504,18 @@ button:disabled {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
   z-index: 1002;
   display: none;
   align-items: center;
   justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .menu-overlay.vis {
@@ -343,26 +523,39 @@ button:disabled {
 }
 
 .menu-content {
-  background: white;
-  padding: 40px;
-  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+  padding: 32px;
+  border-radius: 24px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  max-width: 320px;
+  width: calc(100vw - 40px);
+  transform: scale(0.9);
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes scaleIn {
+  to { transform: scale(1); }
 }
 
 .menu-content h2 {
   margin-top: 0;
-  color: #007acc;
-  margin-bottom: 30px;
+  color: #2c2c2c;
+  margin-bottom: 24px;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .menu-content button {
   display: block;
-  width: 200px;
-  margin: 15px auto;
-  padding: 15px;
+  width: 100%;
+  margin: 12px 0;
+  padding: 16px;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 16px;
+  font-weight: 600;
 }
 
 /* ========================================
@@ -523,84 +716,161 @@ button:disabled {
 /* ========================================
    MOBILE RESPONSIVE STYLES
    ======================================== */
+
+/* Add vibration-like feedback animation */
+@keyframes tapFeedback {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Enhanced button feedback for mobile */
+button:active {
+  animation: tapFeedback 0.1s ease;
+}
+
+/* Mobile-specific touch optimizations */
 @media screen and (max-width: 768px) {
   body {
-    padding: 10px;
-    font-size: 14px;
+    padding: 0;
+    font-size: 16px; /* Better readability on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .main-content {
+    padding: 16px;
+    border-radius: 0;
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 26px;
+    margin-bottom: 24px;
+    padding-top: 80px; /* Space for menu button */
   }
 
   h2 {
-    font-size: 18px;
+    font-size: 20px;
   }
 
-  /* Mobile button adjustments */
+  /* Enhanced mobile button styling */
   button {
     font-size: 16px;
-    padding: 14px 20px;
-    margin: 6px;
+    padding: 16px 24px;
+    margin: 8px;
     min-height: 48px;
+    border-radius: 24px;
+    font-weight: 600;
   }
 
+  /* Enhanced card buttons for mobile */
   .kortvalg button,
   .kortvalg-knap {
-    font-size: 18px !important;
-    min-width: 60px !important;
-    height: 60px !important;
-    margin: 6px !important;
+    font-size: 20px !important;
+    min-width: 72px !important;
+    height: 72px !important;
+    margin: 10px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 8px 24px rgba(255, 112, 67, 0.4) !important;
   }
 
-  /* Mobile card selection layout */
-  .kortvalg {
-    margin: 12px 0 !important;
+  .kortvalg button:active,
+  .kortvalg-knap:active {
+    transform: scale(0.9) !important;
+    box-shadow: 0 4px 12px rgba(255, 112, 67, 0.6) !important;
   }
 
-  .kortvalg h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
+  /* Improved card container */
+  .kortvalg-container {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 24px;
   }
 
-  /* Mobile player sections */
+  /* Mobile player sections with better spacing */
   .rytter {
-    margin: 10px 0;
-    padding: 12px;
+    padding: 20px;
   }
 
   .spiller-sektion {
     margin: 20px 0;
-    padding: 15px;
+    border-radius: 20px;
   }
 
-  .spillertitel {
-    font-size: 20px;
-    margin-bottom: 12px;
-  }
-
-  /* Mobile menu adjustments */
+  /* Enhanced mobile menu */
   .menu-knap {
-    width: 45px;
-    height: 45px;
-    font-size: 18px;
-    top: 15px;
-    left: 15px;
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+    top: 20px;
+    left: 20px;
+    border-radius: 30px;
   }
 
   .menu-content {
-    padding: 25px;
+    padding: 32px 24px;
     margin: 20px;
     width: calc(100% - 40px);
-    max-width: 350px;
+    max-width: 380px;
+    border-radius: 28px;
   }
 
   .menu-content button {
     width: 100%;
-    padding: 12px;
-    font-size: 14px;
+    padding: 16px;
+    font-size: 16px;
+    margin: 8px 0;
+    border-radius: 20px;
   }
+
+  /* Mobile info styling */
+  .info {
+    padding: 20px;
+    border-radius: 20px;
+    margin: 16px 0;
+    font-size: 15px;
+  }
+
+  /* Status indicator improvements */
+  #rundestatus {
+    padding: 20px 24px;
+    font-size: 16px;
+    margin: 20px 0;
+    border-radius: 24px;
+  }
+
+  /* Notification positioning for mobile */
+  .notification {
+    top: 100px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+    transform: none;
+    margin: 0;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 16px;
+  }
+
+  .notification.show {
+    transform: translateY(0);
+    animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
 
   /* Mobile results grid */
   .resultat-container {
@@ -817,5 +1087,172 @@ button:disabled {
 @media screen and (max-width: 320px) {
   .rytter-redigering-knapper {
     flex-direction: column;
+  }
+}
+
+/* ========================================
+   FLOATING ACTION BUTTON
+   ======================================== */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  border: none;
+  font-size: 28px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(238, 90, 82, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: none; /* Hidden by default, shown with JS */
+}
+
+.fab:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 12px 32px rgba(238, 90, 82, 0.6);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+.fab.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fabSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fabSlideIn {
+  from {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   ENHANCED VISUAL FEEDBACK & STATES
+   ======================================== */
+
+/* Loading state for buttons */
+.button-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.button-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Enhanced focus states for accessibility */
+button:focus {
+  outline: 3px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Success state animation */
+.success-flash {
+  animation: successPulse 0.6s ease;
+}
+
+@keyframes successPulse {
+  0% { background: current; }
+  50% { 
+    background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+    transform: scale(1.02);
+  }
+  100% { background: current; }
+}
+
+/* Modern scroll indicators */
+.scroll-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  z-index: 9999;
+  transition: width 0.3s ease;
+}
+
+/* ========================================
+   ENHANCED PWA FEATURES
+   ======================================== */
+
+/* iOS-specific enhancements */
+@supports (-webkit-appearance: none) {
+  .main-content {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+    padding-top: max(env(safe-area-inset-top, 0px), 20px);
+  }
+  
+  .menu-knap {
+    top: max(env(safe-area-inset-top, 20px), 20px);
+  }
+  
+  .fab {
+    bottom: max(env(safe-area-inset-bottom, 24px), 24px);
+    right: max(env(safe-area-inset-right, 24px), 24px);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .main-content {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  .spiller-sektion {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+  }
+  
+  .menu-content {
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.95) 0%, rgba(20, 20, 20, 0.9) 100%);
+    color: white;
+  }
+  
+  .menu-content h2 {
+    color: white;
+  }
+}
+
+/* Motion reduction for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .gradientShift {
+    animation: none;
   }
 }
