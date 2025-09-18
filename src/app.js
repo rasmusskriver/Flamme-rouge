@@ -119,7 +119,7 @@ const ryttereData = {
 };
 
 // Card sets for different rider types
-const sprinterKort = [2, 2, 3, 3, 4, 4, 5, 5, 9, 9, 9, 9, 9, 9, 9];
+const sprinterKort = [2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 9, 9, 9];
 const allaroundKort = [3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7];
 
 // Game state management
@@ -159,7 +159,7 @@ function opretRyttere() {
   let blaaDiv = document.createElement('div');
   blaaDiv.className = 'spiller-sektion farve-blaa';
   blaaDiv.id = 'blaa-sektion';
-  blaaDiv.innerHTML = '<div class="spillertitel">� Blå Ryttere</div>';
+  blaaDiv.innerHTML = '<div class="spillertitel">🔵 Blå Ryttere</div>';
 
   // Create rider components for each color
   for (let key in ryttereData) {
@@ -515,7 +515,7 @@ function visAlleKort() {
       <div class="resultat-rytter">${r.navn}</div>
       <div class="resultat-kort-værdi">${spilletKort}</div>
       <div class="resultat-position">
-        Position: 
+        Position:
         <input type="number" id="pos-${rytter}" value="${r.position}" class="position-input" />
       </div>
       <div class="resultat-actions">
@@ -528,7 +528,8 @@ function visAlleKort() {
 
     // Update rider display in main view
     if (valg) {
-      document.getElementById(`${rytter}-valgt`).innerHTML = `Spillede kort: ${spilletKort}`;
+      document.getElementById(`${rytter}-valgt`).innerHTML =
+        `Spillede kort: ${spilletKort}`;
     }
   });
 
@@ -537,14 +538,16 @@ function visAlleKort() {
   gemKnap.innerHTML = `<button onclick="opdaterPositioner()" class="gem-positioner-knap">Gem Positioner</button>`;
   resultatGrid.appendChild(gemKnap);
 
-
   // Show result container with animation
   document.getElementById('resultat-container').classList.add('vis');
   document.getElementById('main-content').classList.add('hidden');
   document.querySelector('.menu-knap').style.display = 'none';
 
   opdaterAktivSpiller();
-  visNotifikation('Alle kort afsløret! Juster positioner om nødvendigt.', 'success');
+  visNotifikation(
+    'Alle kort afsløret! Juster positioner om nødvendigt.',
+    'success'
+  );
   opdaterUI();
 }
 
@@ -775,7 +778,10 @@ function gemRytterNavn(rytterKey) {
   if (nytNavn) {
     ryttereData[rytterKey].navn = nytNavn;
     opdaterRytterNavneUI();
-    visNotifikation(`${ryttereData[rytterKey].type} har fået nyt navn!`, 'success');
+    visNotifikation(
+      `${ryttereData[rytterKey].type} har fået nyt navn!`,
+      'success'
+    );
   } else {
     visNotifikation('Navn kan ikke være tomt!', 'warning');
   }
