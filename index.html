@@ -106,6 +106,19 @@
     </div>
 
     <!-- ========================================
+         STORY MODAL OVERLAY
+         ======================================== -->
+    <div id="historie-overlay" class="menu-overlay" onclick="skjulHistorie()">
+      <div class="menu-content" onclick="event.stopPropagation()">
+        <h2 id="historie-titel"></h2>
+        <p id="historie-tekst" style="text-align: left; white-space: pre-wrap;"></p>
+        <button onclick="skjulHistorie()" style="background-color: #007acc">
+          Luk
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================
          MAIN GAME CONTENT
          ======================================== -->
     <div id="main-content" class="main-content">

@@ -812,3 +812,10 @@ button:disabled {
   padding: 8px 12px;
   font-size: 14px;
 }
+
+/* Make the buttons wrap on small screens */
+@media screen and (max-width: 320px) {
+  .rytter-redigering-knapper {
+    flex-direction: column;
+  }
+}

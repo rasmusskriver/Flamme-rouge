@@ -734,6 +734,16 @@ function skjulRytterMenu() {
   visMmenu(); // Show main menu again
 }
 
+function visHistorie(titel, tekst) {
+  document.getElementById('historie-titel').textContent = titel;
+  document.getElementById('historie-tekst').textContent = tekst;
+  document.getElementById('historie-overlay').classList.add('vis');
+}
+
+function skjulHistorie() {
+  document.getElementById('historie-overlay').classList.remove('vis');
+}
+
 function opdaterRedigerRyttereListe() {
   const liste = document.getElementById('rytter-redigering-liste');
   liste.innerHTML = '';
@@ -773,7 +783,7 @@ function gemRytterNavn(rytterKey) {
 
 function visRytterHistorie(rytterKey) {
   const rytter = ryttereData[rytterKey];
-  alert(`**${rytter.navn}**\n\n${rytter.historie}`);
+  visHistorie(rytter.navn, rytter.historie);
 }
 
 function opdaterRytterNavneUI() {
