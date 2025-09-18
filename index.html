@@ -69,6 +69,9 @@
     <div id="menu-overlay" class="menu-overlay" onclick="skjulMenu()">
       <div class="menu-content" onclick="event.stopPropagation()">
         <h2>🚴‍♂️ Spil Menu 🚴‍♀️</h2>
+        <button onclick="visRedigerRyttereMenu()">
+          ✏️ Rediger Ryttere
+        </button>
         <button
           onclick="blandAlle(); skjulMenu();"
           style="background-color: #6c757d"
@@ -83,6 +86,21 @@
         </button>
         <button onclick="skjulMenu();" style="background-color: #007acc">
           ← Tilbage til spil
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================
+         RYTTER MENU OVERLAY
+         ======================================== -->
+    <div id="rytter-menu-overlay" class="menu-overlay" onclick="skjulRytterMenu()">
+      <div class="menu-content" onclick="event.stopPropagation()">
+        <h2>✏️ Rediger Ryttere</h2>
+        <div id="rytter-redigering-liste">
+          <!-- Rider edit forms will be injected here -->
+        </div>
+        <button onclick="skjulRytterMenu()" style="background-color: #007acc">
+          ← Tilbage til hovedmenu
         </button>
       </div>
     </div>

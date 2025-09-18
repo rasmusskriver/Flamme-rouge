@@ -9,6 +9,8 @@ const ryttereData = {
     type: 'sprinter',
     farve: 'roed',
     farveDisplay: '🔴 Rød',
+    historie:
+      'Et ungt, eksplosivt talent, kendt for sit ildrøde hår og aggressive slutspurter. Han voksede op i skyggen af de store bjerge og drømmer om at erobre Champs-Élysées.',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -21,6 +23,8 @@ const ryttereData = {
     type: 'allaround',
     farve: 'roed',
     farveDisplay: '🔴 Rød',
+    historie:
+      'En erfaren veteran med et taktisk sind. Han er holdkaptajnen, kendt for sin udholdenhed og evne til at læse løbet. Hans rolige opførsel skjuler en brændende vilje til at vinde.',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -33,6 +37,8 @@ const ryttereData = {
     type: 'sprinter',
     farve: 'sort',
     farveDisplay: '⚫ Sort',
+    historie:
+      'En gådefuld figur, altid klædt i sort. Han er en mester i positionering og timing, og dukker op fra feltet som en skygge for at stjæle sejren på målstregen.',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -45,6 +51,8 @@ const ryttereData = {
     type: 'allaround',
     farve: 'sort',
     farveDisplay: '⚫ Sort',
+    historie:
+      'Holdets arbejdshest. Han er en uselvisk rytter, altid villig til at ofre sine egne chancer for holdets succes. Hans loyalitet er lige så urokkelig som hans tempo.',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -57,6 +65,8 @@ const ryttereData = {
     type: 'sprinter',
     farve: 'groen',
     farveDisplay: '🟢 Grøn',
+    historie:
+      'En kraftfuld og muskuløs rytter, med tilnavnet "Den Grønne Hulk". Han dominerer de flade etaper med rå kraft, og hans spurter er et imponerende syn.',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -69,6 +79,8 @@ const ryttereData = {
     type: 'allaround',
     farve: 'groen',
     farveDisplay: '🟢 Grøn',
+    historie:
+      'En specialist i kuperet terræn. Han er en klatrer af hjertet, men hans alsidighed gør ham til en trussel i ethvert løb. Han er kendt for sin kærlighed til naturen og sin bæredygtige livsstil.',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -81,6 +93,8 @@ const ryttereData = {
     type: 'sprinter',
     farve: 'blaa',
     farveDisplay: '🔵 Blå',
+    historie:
+      'En kølig og beregnende rytter, kendt som "Ismanden". Han panikker aldrig, og hans spurter er et mønstereksempel på effektivitet og kontrol. Han er en mester i at ligge på hjul.',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -93,6 +107,8 @@ const ryttereData = {
     type: 'allaround',
     farve: 'blaa',
     farveDisplay: '🔵 Blå',
+    historie:
+      'Det blå holds strateg. Han er en mester i udbrud, i stand til at læse vinden og vejen til perfektion. Hans angreb er altid perfekt timede.',
     bunke: [],
     træthed: [],
     brugtekort: [],
@@ -705,6 +721,72 @@ function visMmenu() {
 
 function skjulMenu() {
   document.getElementById('menu-overlay').classList.remove('vis');
+}
+
+function visRedigerRyttereMenu() {
+  opdaterRedigerRyttereListe();
+  document.getElementById('rytter-menu-overlay').classList.add('vis');
+  skjulMenu(); // Hide main menu
+}
+
+function skjulRytterMenu() {
+  document.getElementById('rytter-menu-overlay').classList.remove('vis');
+  visMmenu(); // Show main menu again
+}
+
+function opdaterRedigerRyttereListe() {
+  const liste = document.getElementById('rytter-redigering-liste');
+  liste.innerHTML = '';
+
+  for (const key in ryttereData) {
+    const rytter = ryttereData[key];
+    const rytterDiv = document.createElement('div');
+    rytterDiv.className = 'rytter-redigering-item';
+
+    // Rider type display, e.g., "Sprinter (Rød)"
+    const typeTekst = `${rytter.type.charAt(0).toUpperCase() + rytter.type.slice(1)} (${rytter.farveDisplay})`;
+
+    rytterDiv.innerHTML = `
+      <label for="navn-${key}">${typeTekst}</label>
+      <input type="text" id="navn-${key}" value="${rytter.navn}" />
+      <div class="rytter-redigering-knapper">
+        <button onclick="gemRytterNavn('${key}')">Gem Navn</button>
+        <button onclick="visRytterHistorie('${key}')">Læs Historie</button>
+      </div>
+    `;
+    liste.appendChild(rytterDiv);
+  }
+}
+
+function gemRytterNavn(rytterKey) {
+  const input = document.getElementById(`navn-${rytterKey}`);
+  const nytNavn = input.value.trim();
+
+  if (nytNavn) {
+    ryttereData[rytterKey].navn = nytNavn;
+    opdaterRytterNavneUI();
+    visNotifikation(`${ryttereData[rytterKey].type} har fået nyt navn!`, 'success');
+  } else {
+    visNotifikation('Navn kan ikke være tomt!', 'warning');
+  }
+}
+
+function visRytterHistorie(rytterKey) {
+  const rytter = ryttereData[rytterKey];
+  alert(`**${rytter.navn}**\n\n${rytter.historie}`);
+}
+
+function opdaterRytterNavneUI() {
+  for (const key in ryttereData) {
+    const rytter = ryttereData[key];
+    const rytterElement = document.getElementById(key);
+    if (rytterElement) {
+      const h2 = rytterElement.querySelector('h2');
+      if (h2) {
+        h2.textContent = rytter.navn;
+      }
+    }
+  }
 }
 
 /* ========================================
