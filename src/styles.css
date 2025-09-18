@@ -479,6 +479,24 @@ button:disabled {
   background: rgba(255, 255, 255, 0.3);
 }
 
+.position-input {
+  width: 60px;
+  padding: 5px;
+  margin-left: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 14px;
+}
+
+.gem-positioner-knap {
+  grid-column: 1 / -1; /* Span across all columns */
+  background-color: #28a745;
+  color: white;
+  margin-top: 10px;
+}
+
+
 /* ========================================
    LAYOUT & ANIMATIONS
    ======================================== */
@@ -723,4 +741,25 @@ button:disabled {
   .resultat-kort-værdi {
     font-size: 24px;
   }
+}
+
+/* Fallback for older browsers */
+.main-content.hidden {
+  display: none;
+}
+
+.resultat-container {
+  display: none;
+}
+
+.resultat-container.vis {
+  display: flex;
+}
+
+.menu-overlay {
+  display: none;
+}
+
+.menu-overlay.vis {
+  display: flex;
 }

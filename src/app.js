@@ -467,27 +467,41 @@ function nytRunde() {
    ======================================== */
 
 function visAlleKort() {
-  let resultater = [];
   let resultatGrid = document.getElementById('resultat-grid');
   resultatGrid.innerHTML = '';
 
+  // Process played cards and update positions *before* sorting
   for (let rytter in spilletilstand.valgtekort) {
     let valg = spilletilstand.valgtekort[rytter];
     let r = ryttereData[rytter];
 
-    // Move selected card to used cards
-    r.brugtekort.push(valg.kort);
-    r.position += valg.kort;
+    // Move selected card to used cards if it's a new round
+    if (!r.brugtekort.includes(valg.kort)) {
+      r.brugtekort.push(valg.kort);
+      r.position += valg.kort;
+    }
+  }
 
-    resultater.push(`${r.navn}: ${valg.kort}`);
+  // Get all riders, sort by position (descending)
+  const sorteredeRyttere = Object.keys(ryttereData).sort(
+    (a, b) => ryttereData[b].position - ryttereData[a].position
+  );
 
-    // Create result card for display
+  // Create and append sorted result cards
+  sorteredeRyttere.forEach((rytter) => {
+    let r = ryttereData[rytter];
+    let valg = spilletilstand.valgtekort[rytter];
+    let spilletKort = valg ? valg.kort : '-'; // Handle case where not all riders might have played
+
     let resultatKort = document.createElement('div');
     resultatKort.className = 'resultat-kort';
     resultatKort.innerHTML = `
       <div class="resultat-rytter">${r.navn}</div>
-      <div class="resultat-kort-værdi">${valg.kort}</div>
-      <div class="resultat-position">Ny position: ${r.position}</div>
+      <div class="resultat-kort-værdi">${spilletKort}</div>
+      <div class="resultat-position">
+        Position: 
+        <input type="number" id="pos-${rytter}" value="${r.position}" class="position-input" />
+      </div>
       <div class="resultat-actions">
         <button onclick="tilføjTræthedResultat('${rytter}')">
           ⚡ Tilføj træthedskort
@@ -496,24 +510,40 @@ function visAlleKort() {
     `;
     resultatGrid.appendChild(resultatKort);
 
-    // Update rider display
-    document.getElementById(`${rytter}-valgt`).innerHTML =
-      `Spillede kort: ${valg.kort}`;
-  }
+    // Update rider display in main view
+    if (valg) {
+      document.getElementById(`${rytter}-valgt`).innerHTML = `Spillede kort: ${spilletKort}`;
+    }
+  });
+
+  // Add a button to save all position changes
+  let gemKnap = document.createElement('div');
+  gemKnap.innerHTML = `<button onclick="opdaterPositioner()" class="gem-positioner-knap">Gem Positioner</button>`;
+  resultatGrid.appendChild(gemKnap);
+
 
   // Show result container with animation
   document.getElementById('resultat-container').classList.add('vis');
   document.getElementById('main-content').classList.add('hidden');
   document.querySelector('.menu-knap').style.display = 'none';
 
-  // Show both players
   opdaterAktivSpiller();
-
-  visNotifikation(
-    'Alle kort afsløret! Tilføj træthedskort hvis nødvendigt.',
-    'success'
-  );
+  visNotifikation('Alle kort afsløret! Juster positioner om nødvendigt.', 'success');
   opdaterUI();
+}
+
+function opdaterPositioner() {
+  // Update rider data from input fields
+  for (let key in ryttereData) {
+    const input = document.getElementById(`pos-${key}`);
+    if (input) {
+      ryttereData[key].position = parseInt(input.value, 10);
+    }
+  }
+
+  // Re-sort and re-display the results
+  visAlleKort();
+  visNotifikation('Positioner er blevet opdateret!', 'info');
 }
 
 function skjulResultater() {
