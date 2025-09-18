@@ -1,5 +1,7 @@
 # Flamme Rouge Kortstyring - Modern Web App
 
+npm run serve
+
 En moderne digital kortstyring til Flamme Rouge brætspillet, bygget som en Progressive Web App (PWA) og optimeret til deployment på Vercel.
 
 ## 🚀 Funktioner
@@ -28,15 +30,18 @@ flamme-rouge/
 ## 🛠️ Development
 
 ### Forudsætninger
-- Node.js 18+ 
+
+- Node.js 18+
 - npm eller yarn
 
 ### Installation
+
 ```bash
 npm install
 ```
 
 ### Development Server
+
 ```bash
 npm run dev
 # Eller
@@ -44,6 +49,7 @@ npm start
 ```
 
 ### Build & Deploy
+
 ```bash
 # Lokal build validation
 npm run build
@@ -56,6 +62,7 @@ npm run deploy:prod
 ```
 
 ### Code Quality
+
 ```bash
 # Lint JavaScript
 npm run lint
@@ -70,9 +77,9 @@ npm run format
 npm run test:validate
 ```
 
-   ```bash
-   npm i -g vercel
-   ```
+```bash
+npm i -g vercel
+```
 
 2. **Login til Vercel**:
 

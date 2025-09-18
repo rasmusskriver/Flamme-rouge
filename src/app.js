@@ -117,60 +117,6 @@ let spilletilstand = {
 };
 
 /* ========================================
-   LOCAL STORAGE - GAME STATE PERSISTENCE
-   ======================================== */
-
-function gemSpilTilstand() {
-  try {
-    const spilldata = {
-      ryttereData: ryttereData,
-      spilletilstand: spilletilstand,
-      aktivSpiller: aktivSpiller,
-      timestamp: new Date().getTime(),
-    };
-    localStorage.setItem('flammeRougeSpildata', JSON.stringify(spilldata));
-  } catch (error) {
-    console.error('Kunne ikke gemme spiltilstand:', error);
-  }
-}
-
-function indlæsSpilTilstand() {
-  try {
-    const gemt = localStorage.getItem('flammeRougeSpildata');
-    if (gemt) {
-      const spilldata = JSON.parse(gemt);
-
-      // Check if saved data is less than 7 days old
-      const now = new Date().getTime();
-      const dageSiden = (now - spilldata.timestamp) / (1000 * 60 * 60 * 24);
-
-      if (dageSiden < 7) {
-        ryttereData = spilldata.ryttereData;
-        spilletilstand = spilldata.spilletilstand;
-        aktivSpiller = spilldata.aktivSpiller;
-        return true;
-      } else {
-        // Remove old save data
-        localStorage.removeItem('flammeRougeSpildata');
-      }
-    }
-  } catch (error) {
-    console.error('Kunne ikke indlæse spiltilstand:', error);
-    localStorage.removeItem('flammeRougeSpildata');
-  }
-  return false;
-}
-
-function rydGemtSpildata() {
-  try {
-    localStorage.removeItem('flammeRougeSpildata');
-    visNotifikation('Gemt spildata er ryddet!', 'info');
-  } catch (error) {
-    console.error('Kunne ikke rydde gemt data:', error);
-  }
-}
-
-/* ========================================
    GAME INITIALIZATION
    ======================================== */
 
@@ -340,8 +286,9 @@ function trækKort(rytter) {
       );
     }
 
-    // If still not enough cards, shuffle fatigue cards back
-    if (r.bunke.length < 4 && r.træthed.length > 0) {
+    // If still not enough cards, shuffle fatigue cards back (DEPRECATED)
+    // Fatigue cards are now shuffled in immediately.
+    /* if (r.bunke.length < 4 && r.træthed.length > 0) {
       r.bunke = r.bunke.concat(r.træthed);
       r.træthed = [];
       r.bunke.sort(() => Math.random() - 0.5);
@@ -349,7 +296,7 @@ function trækKort(rytter) {
         `${r.navn}: Træthedskort også blandet tilbage i bunken!`,
         'info'
       );
-    }
+    } */
   }
 
   if (r.bunke.length < 4) {
@@ -433,10 +380,16 @@ function vælgKort(rytter, kortIndex) {
 
 function tilføjTræthed(rytter) {
   let r = ryttereData[rytter];
-  // Add fatigue card (value 2) to fatigue deck
+  // Add fatigue card (value 2) to fatigue deck for tracking
   r.træthed.push(2);
+  // Also add to main deck and shuffle
+  r.bunke.push(2);
+  r.bunke.sort(() => Math.random() - 0.5);
 
-  visNotifikation(`${r.navn} får et træthedskort (værdi 2)`, 'warning');
+  visNotifikation(
+    `${r.navn} får et træthedskort (værdi 2), som blandes i bunken med det samme.`,
+    'warning'
+  );
   opdaterUI();
 }
 
@@ -571,8 +524,14 @@ function skjulResultater() {
 function tilføjTræthedResultat(rytter) {
   let r = ryttereData[rytter];
   r.træthed.push(2);
+  // Also add to main deck and shuffle
+  r.bunke.push(2);
+  r.bunke.sort(() => Math.random() - 0.5);
 
-  visNotifikation(`${r.navn} får et træthedskort (værdi 2)`, 'warning');
+  visNotifikation(
+    `${r.navn} får et træthedskort (værdi 2), som blandes i bunken med det samme.`,
+    'warning'
+  );
 
   // Update display in result screen
   let resultatKort = event.target.closest('.resultat-kort');
