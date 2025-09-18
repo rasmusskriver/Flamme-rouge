@@ -716,84 +716,161 @@ button:disabled::before {
 /* ========================================
    MOBILE RESPONSIVE STYLES
    ======================================== */
+
+/* Add vibration-like feedback animation */
+@keyframes tapFeedback {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Enhanced button feedback for mobile */
+button:active {
+  animation: tapFeedback 0.1s ease;
+}
+
+/* Mobile-specific touch optimizations */
 @media screen and (max-width: 768px) {
   body {
-    padding: 10px;
-    font-size: 14px;
+    padding: 0;
+    font-size: 16px; /* Better readability on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .main-content {
+    padding: 16px;
+    border-radius: 0;
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 26px;
+    margin-bottom: 24px;
+    padding-top: 80px; /* Space for menu button */
   }
 
   h2 {
-    font-size: 18px;
+    font-size: 20px;
   }
 
-  /* Mobile button adjustments */
+  /* Enhanced mobile button styling */
   button {
     font-size: 16px;
-    padding: 14px 20px;
-    margin: 6px;
+    padding: 16px 24px;
+    margin: 8px;
     min-height: 48px;
+    border-radius: 24px;
+    font-weight: 600;
   }
 
+  /* Enhanced card buttons for mobile */
   .kortvalg button,
   .kortvalg-knap {
-    font-size: 18px !important;
-    min-width: 60px !important;
-    height: 60px !important;
-    margin: 6px !important;
+    font-size: 20px !important;
+    min-width: 72px !important;
+    height: 72px !important;
+    margin: 10px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 8px 24px rgba(255, 112, 67, 0.4) !important;
   }
 
-  /* Mobile card selection layout */
-  .kortvalg {
-    margin: 12px 0 !important;
+  .kortvalg button:active,
+  .kortvalg-knap:active {
+    transform: scale(0.9) !important;
+    box-shadow: 0 4px 12px rgba(255, 112, 67, 0.6) !important;
   }
 
-  .kortvalg h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
+  /* Improved card container */
+  .kortvalg-container {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 24px;
   }
 
-  /* Mobile player sections */
+  /* Mobile player sections with better spacing */
   .rytter {
-    margin: 10px 0;
-    padding: 12px;
+    padding: 20px;
   }
 
   .spiller-sektion {
     margin: 20px 0;
-    padding: 15px;
+    border-radius: 20px;
   }
 
-  .spillertitel {
-    font-size: 20px;
-    margin-bottom: 12px;
-  }
-
-  /* Mobile menu adjustments */
+  /* Enhanced mobile menu */
   .menu-knap {
-    width: 45px;
-    height: 45px;
-    font-size: 18px;
-    top: 15px;
-    left: 15px;
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+    top: 20px;
+    left: 20px;
+    border-radius: 30px;
   }
 
   .menu-content {
-    padding: 25px;
+    padding: 32px 24px;
     margin: 20px;
     width: calc(100% - 40px);
-    max-width: 350px;
+    max-width: 380px;
+    border-radius: 28px;
   }
 
   .menu-content button {
     width: 100%;
-    padding: 12px;
-    font-size: 14px;
+    padding: 16px;
+    font-size: 16px;
+    margin: 8px 0;
+    border-radius: 20px;
   }
+
+  /* Mobile info styling */
+  .info {
+    padding: 20px;
+    border-radius: 20px;
+    margin: 16px 0;
+    font-size: 15px;
+  }
+
+  /* Status indicator improvements */
+  #rundestatus {
+    padding: 20px 24px;
+    font-size: 16px;
+    margin: 20px 0;
+    border-radius: 24px;
+  }
+
+  /* Notification positioning for mobile */
+  .notification {
+    top: 100px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+    transform: none;
+    margin: 0;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 16px;
+  }
+
+  .notification.show {
+    transform: translateY(0);
+    animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
 
   /* Mobile results grid */
   .resultat-container {
@@ -1010,5 +1087,172 @@ button:disabled::before {
 @media screen and (max-width: 320px) {
   .rytter-redigering-knapper {
     flex-direction: column;
+  }
+}
+
+/* ========================================
+   FLOATING ACTION BUTTON
+   ======================================== */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  border: none;
+  font-size: 28px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(238, 90, 82, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: none; /* Hidden by default, shown with JS */
+}
+
+.fab:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 12px 32px rgba(238, 90, 82, 0.6);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+.fab.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fabSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fabSlideIn {
+  from {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   ENHANCED VISUAL FEEDBACK & STATES
+   ======================================== */
+
+/* Loading state for buttons */
+.button-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.button-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Enhanced focus states for accessibility */
+button:focus {
+  outline: 3px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Success state animation */
+.success-flash {
+  animation: successPulse 0.6s ease;
+}
+
+@keyframes successPulse {
+  0% { background: current; }
+  50% { 
+    background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+    transform: scale(1.02);
+  }
+  100% { background: current; }
+}
+
+/* Modern scroll indicators */
+.scroll-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  z-index: 9999;
+  transition: width 0.3s ease;
+}
+
+/* ========================================
+   ENHANCED PWA FEATURES
+   ======================================== */
+
+/* iOS-specific enhancements */
+@supports (-webkit-appearance: none) {
+  .main-content {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+    padding-top: max(env(safe-area-inset-top, 0px), 20px);
+  }
+  
+  .menu-knap {
+    top: max(env(safe-area-inset-top, 20px), 20px);
+  }
+  
+  .fab {
+    bottom: max(env(safe-area-inset-bottom, 24px), 24px);
+    right: max(env(safe-area-inset-right, 24px), 24px);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .main-content {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  .spiller-sektion {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+  }
+  
+  .menu-content {
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.95) 0%, rgba(20, 20, 20, 0.9) 100%);
+    color: white;
+  }
+  
+  .menu-content h2 {
+    color: white;
+  }
+}
+
+/* Motion reduction for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .gradientShift {
+    animation: none;
   }
 }

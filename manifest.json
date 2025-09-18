@@ -1,15 +1,16 @@
 {
   "name": "Flamme Rouge Kortstyring",
   "short_name": "Flamme Rouge",
-  "description": "Digital kortstyring til Flamme Rouge brætspil",
+  "description": "Modern digital kortstyring til Flamme Rouge brætspil",
   "start_url": "/",
   "scope": "/",
-  "display": "fullscreen",
-  "background_color": "#f5f5f5",
-  "theme_color": "#007acc",
-  "orientation": "portrait",
-  "categories": ["games", "entertainment"],
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "categories": ["games", "entertainment", "utilities"],
   "lang": "da",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "icon-192.svg",
@@ -23,6 +24,16 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Nyt Spil",
+      "short_name": "Nyt Spil",
+      "description": "Start et nyt spil af Flamme Rouge",
+      "url": "/?action=newgame",
+      "icons": [{ "src": "icon-192.svg", "sizes": "192x192" }]
+    }
+  ],
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"]
 }
 
