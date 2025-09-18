@@ -1,4 +1,16 @@
 /* ========================================
+   HAPTIC FEEDBACK
+   ======================================== */
+
+function vibrateFeedback() {
+  // Check if the Vibration API is supported
+  if ('vibrate' in navigator) {
+    // Vibrate for 50ms - a short, crisp tap
+    navigator.vibrate(50);
+  }
+}
+
+/* ========================================
    GAME DATA & CONFIGURATION
    ======================================== */
 
@@ -263,6 +275,8 @@ function blandAlle() {
 }
 
 function trækKort(rytter) {
+  vibrateFeedback();
+
   if (spilletilstand.fase !== 'vælg_kort') {
     visNotifikation('Venter på at alle spillere har valgt kort!', 'warning');
     return;
@@ -348,6 +362,8 @@ function visDragneKort(rytter) {
 }
 
 function vælgKort(rytter, kortIndex) {
+  vibrateFeedback();
+
   let r = ryttereData[rytter];
   let valgtKort = r.dragnekort[kortIndex];
 
