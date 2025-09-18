@@ -335,7 +335,7 @@ function visDragneKort(rytter) {
   let r = ryttereData[rytter];
 
   kortDiv.innerHTML = `
-    <h3>Vælg et kort at spille:</h3>
+    <h3>Vælg et kort for ${r.navn} (${r.type}):</h3>
     <div class="kortvalg-container">
       ${r.dragnekort
         .map(
@@ -513,6 +513,7 @@ function visAlleKort() {
     resultatKort.className = 'resultat-kort';
     resultatKort.innerHTML = `
       <div class="resultat-rytter">${r.navn}</div>
+      <div style="font-size: 0.9em; color: #666; margin-bottom: 10px;">${r.type.charAt(0).toUpperCase() + r.type.slice(1)}</div>
       <div class="resultat-kort-værdi">${spilletKort}</div>
       <div class="resultat-position">
         Position:
