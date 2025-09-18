@@ -694,11 +694,16 @@ button:disabled {
     margin-bottom: 15px;
   }
 
+  .kortvalg-container {
+    gap: 5px;
+    margin: 10px 0;
+  }
+
   .kortvalg button,
   .kortvalg-knap {
     font-size: 16px !important;
-    min-width: 55px !important;
-    height: 55px !important;
+    min-width: 50px !important;
+    height: 50px !important;
     margin: 4px !important;
   }
 

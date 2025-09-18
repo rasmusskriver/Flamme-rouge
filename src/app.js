@@ -320,7 +320,7 @@ function visDragneKort(rytter) {
 
   kortDiv.innerHTML = `
     <h3>Vælg et kort at spille:</h3>
-    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 15px 0;">
+    <div class="kortvalg-container">
       ${r.dragnekort
         .map(
           (kort, index) =>
